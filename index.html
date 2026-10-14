@@ -19,6 +19,8 @@ a{color:inherit}
 h2{font:normal 42px Georgia}
 .photos{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .photos img{width:100%;height:300px;object-fit:cover}
+.photos figure{margin:0}
+.photos figcaption{padding:10px 2px 0;font:italic 16px Georgia,serif;opacity:.8}
 .contact{text-align:center;padding:70px 20px}
 footer{padding:25px;text-align:center;font-size:12px}
 @media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}}
@@ -41,7 +43,10 @@ footer{padding:25px;text-align:center;font-size:12px}
 <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80" alt="Mountain landscape">
 <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80" alt="Architecture">
 <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=80" alt="Sunrise">
-<img src="IMG_20260529_191700.jpg" alt="Sunset over the sea">
+<figure>
+<img src="IMG_20260529_191700.jpg" alt="The sun setting behind a dark headland, its light glittering on the sea in the foreground" style="object-position:center 38%">
+<figcaption>Last light. The sun slips behind the headland and the sea catches fire.</figcaption>
+</figure>
 </div>
 </section>
 <section class="contact"><h2>Let's connect.</h2><p>Photography by Abdenour · Oran, Algeria</p><p>Instagram: <a href="https://instagram.com/abd_enour4" target="_blank" rel="noopener">@abd_enour4</a></p></section>
