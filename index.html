@@ -15,19 +15,21 @@ h1 em{color:#d4ddc7}
 p{line-height:1.8}
 a{color:inherit}
 .intro{text-align:center;padding:70px 8%;font:clamp(25px,4vw,40px) Georgia,serif;line-height:1.5}
-.gallery{padding:40px 6%;background:#e5e5dc}
+.gallery{padding:80px 6% 90px;color:#f2f0e9;background:radial-gradient(900px 480px at 8% 0%,rgba(176,122,10,.22),transparent 65%),radial-gradient(900px 520px at 100% 100%,rgba(70,120,135,.26),transparent 65%),linear-gradient(180deg,#131c18,#0b1110)}
 h2{font:normal 42px Georgia}
-.photos{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.photos img{width:100%;height:300px;object-fit:cover}
+.gallery h2{margin:0 0 12px;text-align:center}
+.photos{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:38px 28px}
+.photos img{display:block;width:100%;height:300px;object-fit:cover;border-radius:8px;box-shadow:0 16px 36px rgba(0,0,0,.5);transition:transform .35s ease,box-shadow .35s ease}
 .photos figure{margin:0}
-.photos figcaption{padding:10px 2px 0;font:italic 16px Georgia,serif;opacity:.8}
-.rate-hint{margin:-10px 0 25px;font-size:14px;opacity:.75}
+.photos figure:hover img{transform:translateY(-4px);box-shadow:0 24px 46px rgba(0,0,0,.6)}
+.photos figcaption{padding:14px 2px 0;font:italic 16px Georgia,serif;opacity:.88}
+.rate-hint{margin:0 0 48px;font-size:14px;opacity:.75;text-align:center}
 .rate{display:flex;align-items:center;flex-wrap:wrap;padding:4px 0 14px}
-.star{background:none;border:0;margin:0;padding:0 1px;min-width:34px;min-height:38px;font:28px/1 Arial,sans-serif;color:#6f7365;cursor:pointer;transition:transform .12s,color .12s}
-.star.on{color:#b07a0a}
+.star{background:none;border:0;margin:0;padding:0 1px;min-width:34px;min-height:38px;font:28px/1 Arial,sans-serif;color:#9aa090;cursor:pointer;transition:transform .12s,color .12s}
+.star.on{color:#e3b23c}
 .star:hover{transform:scale(1.18)}
-.star:focus-visible{outline:2px solid #30392f;outline-offset:2px;border-radius:6px}
-.rate-label{margin-left:8px;font:13px Arial,sans-serif;opacity:.75}
+.star:focus-visible{outline:2px solid #f2f0e9;outline-offset:2px;border-radius:6px}
+.rate-label{margin-left:8px;font:13px Arial,sans-serif;opacity:.8}
 .contact{text-align:center;padding:70px 20px}
 footer{padding:25px;text-align:center;font-size:12px}
 @media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}}
