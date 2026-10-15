@@ -46,7 +46,7 @@ footer{padding:25px;text-align:center;font-size:12px}
 <section class="intro">A personal visual journal of places, light and fleeting moments.</section>
 <section class="gallery" id="work">
 <h2>Selected frames.</h2>
-<p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device.</p>
+<p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device, and the photographer gets a notification.</p>
 <div class="photos">
 <figure>
 <img src="beach-sunset.jpg" alt="A small bright sun in an amber hazy sky over the sea, its golden reflection glittering on the waves and wet sand, with a rocky headland on the horizon" style="object-position:center 45%">
@@ -138,14 +138,74 @@ footer{padding:25px;text-align:center;font-size:12px}
 <footer>© 2026 ABDENOUR PHOTOGRAPHY — Moments That Breathe</footer>
 <script>
 (function () {
-  var KEY = 'abdenour-photo-ratings-v1', store = {};
+  // ---- Email alerts: paste your free Web3Forms access key between the quotes (see web3forms.com).
+  // While this is empty, ratings stay on the visitor's device and nothing is sent.
+  var NOTIFY_KEY = '';
+
+  var KEY = 'abdenour-photo-ratings-v1', NKEY = 'abdenour-photo-notified-v1', store = {}, notified = {}, timers = {};
   try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+  try { notified = JSON.parse(localStorage.getItem(NKEY) || '{}') || {}; } catch (e) { notified = {}; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+
+  // Push notification to the photographer's phone (ntfy app) when a visitor rates a photo.
+  var NTFY_TOPIC = 'abdenour-photos-nx87hy2ohxf1bp', sent = 0, timers = {};
+  function notify(id, name, rating) {
+    if (!NTFY_TOPIC || sent >= 20) return;               // cap per page visit
+    clearTimeout(timers[id]);
+    timers[id] = setTimeout(function () {                // wait for the visitor to settle on a final rating
+      sent++;
+      var stars = new Array(rating + 1).join('★') + new Array(6 - rating).join('☆');
+      try {
+        fetch('https://ntfy.sh/' + NTFY_TOPIC + '?title=' + encodeURIComponent('New photo rating') + '&tags=star', {
+          method: 'POST', mode: 'no-cors', body: stars + '  ' + rating + '/5 — ' + name
+        });
+      } catch (e) {}
+    }, 1500);
+  }
+  function saveNotified() { try { localStorage.setItem(NKEY, JSON.stringify(notified)); } catch (e) {} }
+
+  if (NOTIFY_KEY) {
+    var hint = document.querySelector('.rate-hint');
+    if (hint) hint.textContent = 'Tap the stars under any photo to rate it. Your rating is saved on this device and shared with the photographer.';
+  }
+
+  // Sends ONE email per photo per visitor device, a few seconds after they settle on a rating
+  // (so tapping 1, 2, 3, 4 stars in a row produces a single email with the final value).
+  function queueNotify(id, fig) {
+    if (!NOTIFY_KEY || notified[id]) return;
+    clearTimeout(timers[id]);
+    timers[id] = setTimeout(function () {
+      var r = store[id];
+      if (!r || notified[id]) return;
+      var cap = fig.querySelector('figcaption');
+      var title = cap ? cap.textContent.split('. ')[0].replace(/\.$/, '') : id;
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: NOTIFY_KEY,
+          subject: 'New rating: ' + r + '/5 for "' + title + '"',
+          from_name: 'Abdenour Photography site',
+          botcheck: '',
+          rating: r + '/5',
+          photo: id,
+          caption: cap ? cap.textContent : '',
+          page: location.href,
+          message: 'Someone rated "' + title + '" ' + r + ' out of 5 stars.'
+        }),
+        keepalive: true
+      }).then(function (res) { return res.json(); }).then(function (j) {
+        if (j && j.success) { notified[id] = 1; saveNotified(); }
+      }).catch(function () {});
+    }, 4000);
+  }
 
   document.querySelectorAll('.photos figure').forEach(function (fig) {
     var img = fig.querySelector('img');
     if (!img) return;
     var id = img.getAttribute('src');
+    var cap = fig.querySelector('figcaption');
+    var title = cap ? cap.textContent.split('. ')[0].replace(/\.$/, '') : id;   // e.g. "Amber hour"
 
     var box = document.createElement('div');
     box.className = 'rate';
@@ -179,8 +239,10 @@ footer{padding:25px;text-align:center;font-size:12px}
         b.addEventListener('mouseenter', function () { paint(n); });
         b.addEventListener('focus', function () { paint(n); });
         b.addEventListener('click', function () {
-          if (store[id] === n) { delete store[id]; } else { store[id] = n; }   // tap same star again to clear
+          if (store[id] === n) { delete store[id]; clearTimeout(timers[id]); }   // tap same star again to clear
+          else { store[id] = n; notify(id, title, n); }
           save(); settle();
+          if (store[id]) queueNotify(id, fig);
         });
         stars.push(b); box.appendChild(b);
       })(i);
