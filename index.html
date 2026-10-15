@@ -21,6 +21,13 @@ h2{font:normal 42px Georgia}
 .photos img{width:100%;height:300px;object-fit:cover}
 .photos figure{margin:0}
 .photos figcaption{padding:10px 2px 0;font:italic 16px Georgia,serif;opacity:.8}
+.rate-hint{margin:-10px 0 25px;font-size:14px;opacity:.75}
+.rate{display:flex;align-items:center;flex-wrap:wrap;padding:4px 0 14px}
+.star{background:none;border:0;margin:0;padding:0 1px;min-width:34px;min-height:38px;font:28px/1 Arial,sans-serif;color:#6f7365;cursor:pointer;transition:transform .12s,color .12s}
+.star.on{color:#b07a0a}
+.star:hover{transform:scale(1.18)}
+.star:focus-visible{outline:2px solid #30392f;outline-offset:2px;border-radius:6px}
+.rate-label{margin-left:8px;font:13px Arial,sans-serif;opacity:.75}
 .contact{text-align:center;padding:70px 20px}
 footer{padding:25px;text-align:center;font-size:12px}
 @media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}}
@@ -39,6 +46,7 @@ footer{padding:25px;text-align:center;font-size:12px}
 <section class="intro">A personal visual journal of places, light and fleeting moments.</section>
 <section class="gallery" id="work">
 <h2>Selected frames.</h2>
+<p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device.</p>
 <div class="photos">
 <figure>
 <img src="beach-sunset.jpg" alt="A small bright sun in an amber hazy sky over the sea, its golden reflection glittering on the waves and wet sand, with a rocky headland on the horizon" style="object-position:center 45%">
@@ -128,6 +136,63 @@ footer{padding:25px;text-align:center;font-size:12px}
 </section>
 <section class="contact"><h2>Let's connect.</h2><p>Photography by Abdenour · Oran, Algeria</p><p>Instagram: <a href="https://instagram.com/abd_enour4" target="_blank" rel="noopener">@abd_enour4</a></p></section>
 <footer>© 2026 ABDENOUR PHOTOGRAPHY — Moments That Breathe</footer>
+<script>
+(function () {
+  var KEY = 'abdenour-photo-ratings-v1', store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+
+  document.querySelectorAll('.photos figure').forEach(function (fig) {
+    var img = fig.querySelector('img');
+    if (!img) return;
+    var id = img.getAttribute('src');
+
+    var box = document.createElement('div');
+    box.className = 'rate';
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', 'Rate this photo');
+
+    var label = document.createElement('span');
+    label.className = 'rate-label';
+    label.setAttribute('aria-live', 'polite');
+
+    var stars = [];
+    function paint(n) {
+      stars.forEach(function (s, i) {
+        var on = i < n;
+        s.classList.toggle('on', on);
+        s.textContent = on ? '★' : '☆';   // filled / hollow star
+      });
+    }
+    function settle() {
+      var r = store[id] || 0;
+      paint(r);
+      label.textContent = r ? 'Your rating: ' + r + '/5' : 'Rate this photo';
+    }
+
+    for (var i = 1; i <= 5; i++) {
+      (function (n) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'star';
+        b.setAttribute('aria-label', 'Rate ' + n + ' out of 5');
+        b.addEventListener('mouseenter', function () { paint(n); });
+        b.addEventListener('focus', function () { paint(n); });
+        b.addEventListener('click', function () {
+          if (store[id] === n) { delete store[id]; } else { store[id] = n; }   // tap same star again to clear
+          save(); settle();
+        });
+        stars.push(b); box.appendChild(b);
+      })(i);
+    }
+    box.addEventListener('mouseleave', settle);
+    box.addEventListener('focusout', function (e) { if (!box.contains(e.relatedTarget)) settle(); });
+    box.appendChild(label);
+    fig.appendChild(box);
+    settle();
+  });
+})();
+</script>
 </body>
 </html>
  
