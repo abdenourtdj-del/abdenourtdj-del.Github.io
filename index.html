@@ -666,8 +666,10 @@ footer {
     var img = fig.querySelector('img');
     if (!img) return;
 
-    img.addEventListener('click', function (e) {
-      openLightbox(idx);
+    fig.addEventListener('click', function (e) {
+      if (!e.target.closest('.rate')) {
+        openLightbox(idx);
+      }
     });
 
     var id = img.getAttribute('src');
