@@ -4,52 +4,438 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABDENOUR PHOTOGRAPHY</title>
+<title>ABDENOUR PHOTOGRAPHY — Moments That Breathe | Oran, Algeria</title>
+<meta name="description" content="Landscape, architecture, and visual stories from Oran, Algeria by Abdenour Photography. Moments That Breathe.">
+<meta name="author" content="Abdenour">
+<meta property="og:title" content="ABDENOUR PHOTOGRAPHY — Moments That Breathe">
+<meta property="og:description" content="Landscape, architecture, and visual stories from Oran, Algeria.">
+<meta property="og:image" content="sunset.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ABDENOUR PHOTOGRAPHY — Moments That Breathe">
+<meta name="twitter:description" content="Landscape, architecture, and visual stories from Oran, Algeria.">
+<meta name="twitter:image" content="sunset.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f2f0e9;color:#30392f;font-family:Arial,sans-serif}
-header{padding:25px 7%;letter-spacing:3px;font-size:13px}
-.hero{min-height:75vh;background:linear-gradient(90deg,rgba(8,14,18,.5),rgba(8,14,18,.05) 70%),url('hero.jpg') 35% center/cover;display:flex;align-items:center;color:white;padding:8%}
-h1{font-family:Georgia,serif;font-weight:normal;font-size:clamp(45px,8vw,90px);line-height:1.1}
-h1 em{color:#d4ddc7}
-p{line-height:1.8}
-a{color:inherit}
-.intro{text-align:center;padding:70px 8%;font:clamp(25px,4vw,40px) Georgia,serif;line-height:1.5}
-.gallery{padding:80px 6% 90px;color:#f2f0e9;background:radial-gradient(900px 480px at 8% 0%,rgba(176,122,10,.22),transparent 65%),radial-gradient(900px 520px at 100% 100%,rgba(70,120,135,.26),transparent 65%),linear-gradient(180deg,#131c18,#0b1110)}
-h2{font:normal 42px Georgia}
-.gallery h2{margin:0 0 12px;text-align:center}
-.photos{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:38px 28px}
-.photos img{display:block;width:100%;height:300px;object-fit:cover;border-radius:8px;box-shadow:0 16px 36px rgba(0,0,0,.5);transition:transform .35s ease,box-shadow .35s ease}
-.photos figure{margin:0}
-.photos figure:hover img{transform:translateY(-4px);box-shadow:0 24px 46px rgba(0,0,0,.6)}
-.photos figcaption{padding:14px 2px 0;font:italic 16px Georgia,serif;opacity:.88}
-.rate-hint{margin:0 0 48px;font-size:14px;opacity:.75;text-align:center}
-.rate{display:flex;align-items:center;flex-wrap:wrap;padding:4px 0 14px}
-.star{background:none;border:0;margin:0;padding:0 1px;min-width:34px;min-height:38px;font:28px/1 Arial,sans-serif;color:#9aa090;cursor:pointer;transition:transform .12s,color .12s}
-.star.on{color:#e3b23c}
-.star:hover{transform:scale(1.18)}
-.star:focus-visible{outline:2px solid #f2f0e9;outline-offset:2px;border-radius:6px}
-.rate-label{margin-left:8px;font:13px Arial,sans-serif;opacity:.8}
-.contact{text-align:center;padding:70px 20px}
-footer{padding:25px;text-align:center;font-size:12px}
-@media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}}
+:root {
+  --bg-main: #f2f0e9;
+  --text-main: #30392f;
+  --text-muted: #5a6558;
+  --accent-soft: #d4ddc7;
+  --accent-gold: #cda851;
+  --bg-dark: #0f1613;
+  --bg-dark-card: #18231e;
+  --text-light: #f2f0e9;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header & Nav */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(242, 240, 233, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(48, 57, 47, 0.08);
+  transition: all 0.3s ease;
+}
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand {
+  text-decoration: none;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+}
+.brand-title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+.brand-location {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+.nav-links a:hover { opacity: 0.6; }
+
+/* Hero Section */
+.hero {
+  min-height: 82vh;
+  background: linear-gradient(180deg, rgba(12, 18, 15, 0.45) 0%, rgba(12, 18, 15, 0.6) 100%), url('hero.jpg') 35% center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  padding: 8% 6%;
+}
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto 0 4%;
+}
+.hero-tagline {
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(48px, 8.5vw, 92px);
+  line-height: 1.05;
+  margin: 0 0 20px 0;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--accent-soft);
+}
+.hero-subtext {
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 300;
+  max-width: 540px;
+  line-height: 1.6;
+  opacity: 0.92;
+  margin-bottom: 32px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+.hero-cta:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+/* Intro Section */
+.intro {
+  text-align: center;
+  padding: 90px 8%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.intro-text {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 4vw, 42px);
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--text-main);
+  margin: 0;
+}
+.intro-text strong {
+  font-weight: 600;
+}
+
+/* Gallery Section */
+.gallery {
+  padding: 90px 5% 100px;
+  color: var(--text-light);
+  background: radial-gradient(1000px 600px at 10% 0%, rgba(205, 168, 81, 0.15), transparent 70%),
+              radial-gradient(1000px 600px at 90% 100%, rgba(90, 120, 110, 0.2), transparent 70%),
+              linear-gradient(180deg, var(--bg-dark), #090d0b);
+}
+.gallery-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 54px);
+  font-weight: 400;
+  text-align: center;
+  margin: 0 0 12px;
+}
+.rate-hint {
+  margin: 0 auto 48px;
+  max-width: 600px;
+  font-size: 14px;
+  opacity: 0.75;
+  text-align: center;
+  font-weight: 300;
+}
+
+/* Photo Grid Layout */
+.photos {
+  max-width: 1280px;
+  margin: 0 auto;
+  column-count: 2;
+  column-gap: 32px;
+}
+.photos figure {
+  margin: 0 0 36px 0;
+  break-inside: avoid;
+  background: var(--bg-dark-card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+}
+.photos figure:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+}
+.photos figure .img-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.photos figure:hover img {
+  transform: scale(1.03);
+}
+.photos figcaption {
+  padding: 18px 20px 10px;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.5;
+  color: #e8e6df;
+  opacity: 0.95;
+}
+
+/* Star Rating System */
+.rate {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 18px;
+}
+.star {
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0 3px;
+  min-width: 32px;
+  min-height: 32px;
+  font-size: 24px;
+  color: #616a5d;
+  cursor: pointer;
+  transition: transform 0.15s, color 0.15s;
+}
+.star.on { color: var(--accent-gold); }
+.star:hover { transform: scale(1.2); }
+.star:focus-visible { outline: 2px solid var(--accent-soft); border-radius: 4px; }
+.rate-label { margin-left: 8px; font-size: 12px; opacity: 0.75; font-family: var(--font-sans); }
+
+/* Contact Section */
+.contact {
+  text-align: center;
+  padding: 100px 20px;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+.contact-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.contact h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 400;
+  margin: 0 0 16px;
+}
+.contact-location {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+.contact-links {
+  display: flex;
+  justify-content: center;
+}
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 15px;
+  padding: 10px 20px;
+  border: 1px solid rgba(48, 57, 47, 0.2);
+  border-radius: 30px;
+  transition: all 0.25s ease;
+}
+.social-link:hover {
+  background: var(--text-main);
+  color: var(--bg-main);
+  border-color: var(--text-main);
+}
+
+/* Footer */
+footer {
+  padding: 30px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(48, 57, 47, 0.08);
+}
+
+/* Lightbox Overlay */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(8, 12, 10, 0.94);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.lightbox-caption {
+  margin-top: 16px;
+  color: var(--text-light);
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2.5vw, 22px);
+  max-width: 700px;
+  line-height: 1.4;
+}
+.lightbox-close, .lightbox-prev, .lightbox-next {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 1010;
+}
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.lightbox-close { top: 24px; right: 24px; font-size: 28px; }
+.lightbox-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 24px; top: 50%; transform: translateY(-50%); }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .photos { column-count: 1; }
+  .header-inner { padding: 14px 5%; }
+  .nav-links { gap: 16px; }
+  .hero-cta { padding: 10px 18px; font-size: 12px; }
+  .lightbox-prev { left: 10px; width: 40px; height: 40px; font-size: 18px; }
+  .lightbox-next { right: 10px; width: 40px; height: 40px; font-size: 18px; }
+  .lightbox-close { top: 14px; right: 14px; width: 40px; height: 40px; font-size: 22px; }
+}
 </style>
 </head>
 <body>
-<header>ABDENOUR<br>PHOTOGRAPHY</header>
-<section class="hero">
-<div>
-<p>LANDSCAPE · ARCHITECTURE · STORIES</p>
-<h1>Moments<br><em>That Breathe.</em></h1>
-<p>Finding beauty in places, light and everyday moments.</p>
-<a href="#work">Explore my photography ↓</a>
-</div>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="brand">
+      <span class="brand-title">ABDENOUR PHOTOGRAPHY</span>
+      <span class="brand-location">Oran, Algeria</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-content">
+    <p class="hero-tagline">LANDSCAPE · ARCHITECTURE · STORIES</p>
+    <h1 class="hero-title">Moments<br><em>That Breathe.</em></h1>
+    <p class="hero-subtext">A visual journal of light, silent atmosphere, and fleeting scenes across Oran and beyond.</p>
+    <a href="#work" class="hero-cta">
+      <span>Explore Portfolio</span>
+      <svg class="arrow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+    </a>
+  </div>
 </section>
-<section class="intro">A personal visual journal of places, light and fleeting moments.</section>
+
+<section class="intro" id="about">
+  <p class="intro-text">Finding quiet beauty in authentic light, timeless architecture, and everyday atmospheres in <strong>Oran, Algeria</strong>.</p>
+</section>
 <section class="gallery" id="work">
 <h2>Selected frames.</h2>
 <p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device, and the photographer gets a notification.</p>
 <div class="photos">
+<figure>
+<img src="sunset.jpg" alt="The sun setting behind a dark headland, its light glittering on the sea in the foreground" style="object-position:center 38%">
+<figcaption>Last light. The sun slips behind the headland and the sea catches fire.</figcaption>
+</figure>
 <figure>
 <img src="beach-sunset.jpg" alt="A small bright sun in an amber hazy sky over the sea, its golden reflection glittering on the waves and wet sand, with a rocky headland on the horizon" style="object-position:center 45%">
 <figcaption>Amber hour. A hazy sun hangs over the shore and the wet sand turns to gold.</figcaption>
@@ -61,10 +447,6 @@ footer{padding:25px;text-align:center;font-size:12px}
 <figure>
 <img src="dome.jpg" alt="An ornate white building with a grey domed tower and carved balconies, framed by warm sandstone walls, palm trees and a clear blue sky" style="object-position:center 25%">
 <figcaption>Old stone, new light. A carved dome rises between sunlit walls under a clear blue sky.</figcaption>
-</figure>
-<figure>
-<img src="sunset.jpg" alt="The sun setting behind a dark headland, its light glittering on the sea in the foreground" style="object-position:center 38%">
-<figcaption>Last light. The sun slips behind the headland and the sea catches fire.</figcaption>
 </figure>
 <figure>
 <img src="blue-sky.jpg" alt="Bright white clouds drifting across a deep blue sky above rolling hills, red earth and a white farmhouse with a red roof" style="object-position:center 95%">
@@ -136,8 +518,31 @@ footer{padding:25px;text-align:center;font-size:12px}
 </figure>
 </div>
 </section>
-<section class="contact"><h2>Let's connect.</h2><p>Photography by Abdenour · Oran, Algeria</p><p>Instagram: <a href="https://instagram.com/abd_enour4" target="_blank" rel="noopener">@abd_enour4</a></p></section>
-<footer>© 2026 ABDENOUR PHOTOGRAPHY — Moments That Breathe</footer>
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <h2>Let's connect.</h2>
+    <p class="contact-location">Photography by Abdenour · Based in Oran, Algeria</p>
+    <div class="contact-links">
+      <a href="https://instagram.com/abd_enour4" target="_blank" rel="noopener" class="social-link">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>@abd_enour4</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Photo Viewer">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close modal">&times;</button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&#10094;</button>
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next photo">&#10095;</button>
+  <div class="lightbox-content">
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+</div>
+
+<footer>© 2026 ABDENOUR PHOTOGRAPHY — Moments That Breathe · Oran, Algeria</footer>
 <script>
 (function () {
   // ---- Email alerts: paste your free Web3Forms access key between the quotes (see web3forms.com).
@@ -202,9 +607,69 @@ footer{padding:25px;text-align:center;font-size:12px}
     }, 4000);
   }
 
-  document.querySelectorAll('.photos figure').forEach(function (fig) {
+  // Lightbox Modal Functionality
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+  var lightboxCap = document.getElementById('lightbox-caption');
+  var closeBtn = document.getElementById('lightbox-close');
+  var prevBtn = document.getElementById('lightbox-prev');
+  var nextBtn = document.getElementById('lightbox-next');
+
+  var photoElements = Array.from(document.querySelectorAll('.photos figure'));
+  var currentIndex = 0;
+
+  function openLightbox(index) {
+    if (index < 0) index = photoElements.length - 1;
+    if (index >= photoElements.length) index = 0;
+    currentIndex = index;
+
+    var fig = photoElements[currentIndex];
+    var img = fig.querySelector('img');
+    var cap = fig.querySelector('figcaption');
+
+    if (img) {
+      lightboxImg.src = img.getAttribute('src');
+      lightboxImg.alt = img.getAttribute('alt') || '';
+      lightboxCap.textContent = cap ? cap.textContent : '';
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); openLightbox(currentIndex - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); openLightbox(currentIndex + 1); });
+
+  if (lightbox) {
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+        closeLightbox();
+      }
+    });
+  }
+
+  window.addEventListener('keydown', function (e) {
+    if (!lightbox || !lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+    else if (e.key === 'ArrowRight') openLightbox(currentIndex + 1);
+  });
+
+  document.querySelectorAll('.photos figure').forEach(function (fig, idx) {
     var img = fig.querySelector('img');
     if (!img) return;
+
+    img.addEventListener('click', function (e) {
+      openLightbox(idx);
+    });
+
     var id = img.getAttribute('src');
     var cap = fig.querySelector('figcaption');
     var title = cap ? cap.textContent.split('. ')[0].replace(/\.$/, '') : id;   // e.g. "Amber hour"
