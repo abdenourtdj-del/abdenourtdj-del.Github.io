@@ -22,8 +22,20 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f2f0e9;color:#30392f;font-family:Arial,sans-serif}
-header{padding:25px 7%;letter-spacing:3px;font-size:13px}
+header{padding:25px 7%;letter-spacing:3px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.lang-btn{background:transparent;border:1px solid currentColor;color:inherit;padding:7px 16px;border-radius:999px;font:13px Arial,sans-serif;cursor:pointer;letter-spacing:1px;transition:background .2s,color .2s}
+.lang-btn:hover{background:#30392f;color:#f2f0e9}
+.lang-btn:focus-visible{outline:2px solid #30392f;outline-offset:2px}
 .hero{min-height:75vh;background:linear-gradient(90deg,rgba(8,14,18,.5),rgba(8,14,18,.05) 70%),url('hero.jpg') 35% center/cover;display:flex;align-items:center;color:white;padding:8%}
+html[dir="rtl"] .hero{background:linear-gradient(-90deg,rgba(8,14,18,.5),rgba(8,14,18,.05) 70%),url('hero.jpg') 35% center/cover}
+html[dir="rtl"] body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+html[dir="rtl"] h1,html[dir="rtl"] h2,html[dir="rtl"] .intro,html[dir="rtl"] figcaption,html[dir="rtl"] .lb-fig figcaption{font-family:"Traditional Arabic","Amiri","Scheherazade New","Segoe UI",serif}
+html[dir="rtl"] header{letter-spacing:1px}
+html[dir="rtl"] .rate-label{margin-left:0;margin-right:8px}
+html[dir="rtl"] .lb-close{right:auto;left:14px}
+html[dir="rtl"] .lb-count{left:auto;right:18px}
+html[dir="rtl"] .lb-prev{left:auto;right:14px}
+html[dir="rtl"] .lb-next{right:auto;left:14px}
 h1{font-family:Georgia,serif;font-weight:normal;font-size:clamp(45px,8vw,90px);line-height:1.1}
 h1 em{color:#d4ddc7}
 p{line-height:1.8}
@@ -79,7 +91,10 @@ footer{padding:25px;text-align:center;font-size:12px}
 </style>
 </head>
 <body>
-<header>ABDENOUR<br>PHOTOGRAPHY</header>
+<header>
+  <div class="brand">ABDENOUR<br>PHOTOGRAPHY</div>
+  <button type="button" class="lang-btn" id="lang-toggle" aria-label="Switch language to Arabic">العربية</button>
+</header>
 <section class="hero">
 <div>
 <p>LANDSCAPE · ARCHITECTURE · STORIES</p>
@@ -197,21 +212,147 @@ footer{padding:25px;text-align:center;font-size:12px}
 </div>
 <script>
 (function () {
-  // ---- Email alerts: paste your free Web3Forms access key between the quotes (see web3forms.com).
-  // While this is empty, ratings stay on the visitor's device and nothing is sent.
   var NOTIFY_KEY = '';
+
+  var translations = {
+    en: {
+      docTitle: "ABDENOUR PHOTOGRAPHY",
+      brand: "ABDENOUR<br>PHOTOGRAPHY",
+      langBtn: "العربية",
+      langBtnAria: "Switch language to Arabic",
+      heroSub: "LANDSCAPE · ARCHITECTURE · STORIES",
+      heroH1: "Moments<br><em>That Breathe.</em>",
+      heroDesc: "Finding beauty in places, light and everyday moments.",
+      heroCta: "Explore my photography ↓",
+      intro: "A personal visual journal of places, light and fleeting moments.",
+      galleryTitle: "Selected frames.",
+      rateHint: "Tap the stars under any photo to rate it. Your ratings are saved on this device, and the photographer gets a notification.",
+      rateHintNotify: "Tap the stars under any photo to rate it. Your rating is saved on this device and shared with the photographer.",
+      filterAria: "Filter photos by category",
+      cats: {
+        all: "All",
+        golden: "Golden hour",
+        night: "Night",
+        city: "City",
+        nature: "Nature"
+      },
+      rateGroupAria: "Rate this photo",
+      starAria: "Rate {n} out of 5",
+      ratePrompt: "Rate this photo",
+      yourRating: "Your rating: {r}/5",
+      contactTitle: "Let's connect.",
+      contactSub: "Photography by Abdenour · Oran, Algeria",
+      instaBtn: "Follow @abd_enour4 on Instagram",
+      footer: "© 2026 ABDENOUR PHOTOGRAPHY — Moments That Breathe",
+      lbViewerAria: "Photo viewer",
+      lbCloseAria: "Close viewer",
+      lbPrevAria: "Previous photo",
+      lbNextAria: "Next photo",
+      imgOpenAria: "Open full photo: {title}",
+      captions: {
+        "beach-sunset.jpg": "Amber hour. A hazy sun hangs over the shore and the wet sand turns to gold.",
+        "port-view.jpg": "From above. Deep blue sea, the harbour and the city stretch out below the old fort walls.",
+        "dome.jpg": "Old stone, new light. A carved dome rises between sunlit walls under a clear blue sky.",
+        "sunset.jpg": "Last light. The sun slips behind the headland and the sea catches fire.",
+        "blue-sky.jpg": "Open country. Bright clouds roll over the hills, red earth and a lone white farmhouse.",
+        "red-light-street.jpg": "Red light. An empty avenue glows under a violet dusk sky.",
+        "faculty.jpg": "Faculty of Medicine, Oran 1. Huge clouds build over the campus while the day carries on below.",
+        "harbour-clouds.jpg": "Harbour light. Heavy clouds break open over the bay, the old fort and the port below.",
+        "rainy-street.jpg": "After the rain. Street lamps melt into the wet stones and the city glows amber.",
+        "sun-leaves.jpg": "Backlit. Low sun sets the leaves aglow while a fountain sparkles behind.",
+        "tram-street.jpg": "City after dark. Warm lamps and shop lights line a quiet tram street.",
+        "sea-sunset.jpg": "Golden hour. The sun sinks into a calm sea while silhouettes on the shore watch it go.",
+        "park-pond.jpg": "Still water. Palms lean over a quiet pond while the breeze draws ripples across the surface.",
+        "dusk-shore.jpg": "Last glow. A thin line of fire on the horizon as the waves roll in at dusk.",
+        "pine-valley.jpg": "Green silence. Pine forest rolls down into the valley toward the distant hills.",
+        "night-square.jpg": "After hours. The city goes quiet, but the facade glows in white light and the colors of the flag.",
+        "night-stars.jpg": "Under the pines. A small window of night sky opens between the treetops, scattered with stars.",
+        "rainy-road.jpg": "Storm light. An avenue of trees fades into the rain on the open road.",
+        "snow-mountains.jpg": "Winter ridge. Snow clings to the rock above the dark forest, framed by bare branches.",
+        "night-clock.jpg": "Time, lit. A single glowing clock holds the dark while the lights trail off into the distance.",
+        "bare-tree.jpg": "Bare. A leafless tree reaches into a heavy grey sky."
+      }
+    },
+    ar: {
+      docTitle: "تصوير عبد النور",
+      brand: "عبد النور<br>للتصوير الفوتوغرافي",
+      langBtn: "English",
+      langBtnAria: "تغيير اللغة إلى الإنجليزية",
+      heroSub: "مناظر طبيعية · هندسة معمارية · قصص",
+      heroH1: "لحظات<br><em>تتنفس.</em>",
+      heroDesc: "البحث عن الجمال في الأماكن، الضوء واللحظات اليومية.",
+      heroCta: "استكشف ألبومي ↓",
+      intro: "يوميات بصرية شخصية عن الأماكن والضوء واللحظات العابرة.",
+      galleryTitle: "لقطات مختارة.",
+      rateHint: "انقر على النجوم تحت أي صورة لتقييمها. تُحفظ تقييماتك على هذا الجهاز، ويتلقى المصور إشعاراً.",
+      rateHintNotify: "انقر على النجوم تحت أي صورة لتقييمها. يُحفظ تقييمك على هذا الجهاز وتتم مشاركته مع المصور.",
+      filterAria: "تصفية الصور حسب الفئة",
+      cats: {
+        all: "الكل",
+        golden: "الساعة الذهبية",
+        night: "الليل",
+        city: "المدينة",
+        nature: "الطبيعة"
+      },
+      rateGroupAria: "قيم هذه الصورة",
+      starAria: "تقييم {n} من 5",
+      ratePrompt: "قيم هذه الصورة",
+      yourRating: "تقييمك: {r}/5",
+      contactTitle: "تواصل معي.",
+      contactSub: "تصوير عبد النور · وهران، الجزائر",
+      instaBtn: "تابع @abd_enour4 على إنستغرام",
+      footer: "© 2026 تصوير عبد النور — لحظات تتنفس",
+      lbViewerAria: "عارض الصور",
+      lbCloseAria: "إغلاق العارض",
+      lbPrevAria: "الصورة السابقة",
+      lbNextAria: "الصورة التالية",
+      imgOpenAria: "افتح الصورة بالحجم الكامل: {title}",
+      captions: {
+        "beach-sunset.jpg": "ساعة العنبر. شمس ضبابية تعلو الشاطئ والرمال المبتلة تتحول إلى ذهب.",
+        "port-view.jpg": "من الأعلى. بحر أزرق عميق، الميناء والمدينة يمتدان أسفل أسوار القلعة القديمة.",
+        "dome.jpg": "حجر قديم، ضوء جديد. قبة منقوشة ترتفع بين جدران مشمسة تحت سماء زرقاء صافية.",
+        "sunset.jpg": "الضوء الأخير. تتوارى الشمس خلف الرأس البحري والبحر يتوهج بالضوء.",
+        "blue-sky.jpg": "الطبيعة المفتوحة. غيوم ساطعة تتمرج فوق التلال، الأرض الحمراء وبيت ريفي أبيض منفرد.",
+        "red-light-street.jpg": "ضوء أحمر. شارع فارغ يتألق تحت سماء الغسق البنفسجية.",
+        "faculty.jpg": "كلية الطب، وهران 1. غيوم ضخمة تتراكم فوق الحرم الجامعي بينما تتواصل الحياة في الأسفل.",
+        "harbour-clouds.jpg": "ضوء الميناء. غيوم كثيفة تتفرق فوق الخليج والقلعة القديمة والميناء بالأسفل.",
+        "rainy-street.jpg": "بعد المطر. أضواء الشوارع تنعكس على الحجارة المبتلة والمدينة تتوهج بالعنبر.",
+        "sun-leaves.jpg": "إضاءة خلفية. شمس منخفضة تضيء الأوراق بينما تتألق النافورة في الخلفية.",
+        "tram-street.jpg": "المدينة بعد الظلام. مصابيح دافئة وأضواء المحلات تزين شارع الترام الهادئ.",
+        "sea-sunset.jpg": "الساعة الذهبية. تغرب الشمس في بحر هادئ بينما يراقبها المارة على الشاطئ.",
+        "park-pond.jpg": "ماء راكد. أشجار النخيل تميل فوق بركة هادئة بينما ترسم النسائم تموجات على السطح.",
+        "dusk-shore.jpg": "التوهج الأخير. خيط دافئ من الضوء على الأفق مع تلاطم الأمواج في الغسق.",
+        "pine-valley.jpg": "صمت أخضر. غابة الصنوبر تنحدر نحو الوادي باتجاه التلال البعيدة.",
+        "night-square.jpg": "بعد ساعات العمل. تهدأ المدينة، بينما تتوهج الواجهة بالضوء الأبيض وألوان العلم.",
+        "night-stars.jpg": "تحت أوراق الصنوبر. نافذة صغيرة من سماء الليل تفتح بين قمم الأشجار، مرصعة بالنجوم.",
+        "rainy-road.jpg": "ضوء العاصفة. صف من الأشجار يتلاشى في المطر على الطريق المفتوح.",
+        "snow-mountains.jpg": "قمة شتوية. الثلج يعلو الصخور فوق الغابة الداكنة، تحيط به أغصان عارية.",
+        "night-clock.jpg": "الزمان المضاء. ساعة مضيئة مفردة تخترق الظلام بينما تتلاشى الأضواء في المدى.",
+        "bare-tree.jpg": "جرداء. شجرة بلا أوراق تمتد نحو سماء رمادية ثقيلة."
+      }
+    }
+  };
+
+  var currentLang = 'en';
+  try {
+    var savedLang = localStorage.getItem('abdenour-photo-lang');
+    if (savedLang === 'ar' || savedLang === 'en') {
+      currentLang = savedLang;
+    } else if (navigator.language && navigator.language.slice(0, 2) === 'ar') {
+      currentLang = 'ar';
+    }
+  } catch (e) {}
 
   var KEY = 'abdenour-photo-ratings-v1', NKEY = 'abdenour-photo-notified-v1', store = {}, notified = {}, timers = {};
   try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
   try { notified = JSON.parse(localStorage.getItem(NKEY) || '{}') || {}; } catch (e) { notified = {}; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
 
-  // Push notification to the photographer's phone (ntfy app) when a visitor rates a photo.
-  var NTFY_TOPIC = 'abdenour-photos-nx87hy2ohxf1bp', sent = 0, ntfyTimers = {};   // own timer table, so the email alert can never cancel the push alert
+  var NTFY_TOPIC = 'abdenour-photos-nx87hy2ohxf1bp', sent = 0, ntfyTimers = {};
   function notify(id, name, rating) {
-    if (!NTFY_TOPIC || sent >= 20) return;               // cap per page visit
+    if (!NTFY_TOPIC || sent >= 20) return;
     clearTimeout(ntfyTimers[id]);
-    ntfyTimers[id] = setTimeout(function () {            // wait for the visitor to settle on a final rating
+    ntfyTimers[id] = setTimeout(function () {
       sent++;
       var stars = new Array(rating + 1).join('★') + new Array(6 - rating).join('☆');
       try {
@@ -223,13 +364,6 @@ footer{padding:25px;text-align:center;font-size:12px}
   }
   function saveNotified() { try { localStorage.setItem(NKEY, JSON.stringify(notified)); } catch (e) {} }
 
-  if (NOTIFY_KEY) {
-    var hint = document.querySelector('.rate-hint');
-    if (hint) hint.textContent = 'Tap the stars under any photo to rate it. Your rating is saved on this device and shared with the photographer.';
-  }
-
-  // Sends ONE email per photo per visitor device, a few seconds after they settle on a rating
-  // (so tapping 1, 2, 3, 4 stars in a row produces a single email with the final value).
   function queueNotify(id, fig) {
     if (!NOTIFY_KEY || notified[id]) return;
     clearTimeout(timers[id]);
@@ -259,17 +393,16 @@ footer{padding:25px;text-align:center;font-size:12px}
     }, 4000);
   }
 
+  // Build ratings UI
+  var settleFunctions = [];
   document.querySelectorAll('.photos figure').forEach(function (fig) {
     var img = fig.querySelector('img');
     if (!img) return;
     var id = img.getAttribute('src');
-    var cap = fig.querySelector('figcaption');
-    var title = cap ? cap.textContent.split('. ')[0].replace(/\.$/, '') : id;   // e.g. "Amber hour"
 
     var box = document.createElement('div');
     box.className = 'rate';
     box.setAttribute('role', 'group');
-    box.setAttribute('aria-label', 'Rate this photo');
 
     var label = document.createElement('span');
     label.className = 'rate-label';
@@ -280,25 +413,33 @@ footer{padding:25px;text-align:center;font-size:12px}
       stars.forEach(function (s, i) {
         var on = i < n;
         s.classList.toggle('on', on);
-        s.textContent = on ? '★' : '☆';   // filled / hollow star
+        s.textContent = on ? '★' : '☆';
       });
     }
     function settle() {
+      var t = translations[currentLang];
+      box.setAttribute('aria-label', t.rateGroupAria);
+      stars.forEach(function (s, i) {
+        s.setAttribute('aria-label', t.starAria.replace('{n}', i + 1));
+      });
       var r = store[id] || 0;
       paint(r);
-      label.textContent = r ? 'Your rating: ' + r + '/5' : 'Rate this photo';
+      label.textContent = r ? t.yourRating.replace('{r}', r) : t.ratePrompt;
     }
+
+    settleFunctions.push(settle);
 
     for (var i = 1; i <= 5; i++) {
       (function (n) {
         var b = document.createElement('button');
         b.type = 'button';
         b.className = 'star';
-        b.setAttribute('aria-label', 'Rate ' + n + ' out of 5');
         b.addEventListener('mouseenter', function () { paint(n); });
         b.addEventListener('focus', function () { paint(n); });
         b.addEventListener('click', function () {
-          if (store[id] === n) { delete store[id]; clearTimeout(ntfyTimers[id]); clearTimeout(timers[id]); }   // tap same star again to clear
+          var cap = fig.querySelector('figcaption');
+          var title = cap ? cap.textContent.split('. ')[0].replace(/\.$/, '') : id;
+          if (store[id] === n) { delete store[id]; clearTimeout(ntfyTimers[id]); clearTimeout(timers[id]); }
           else { store[id] = n; notify(id, title, n); }
           save(); settle();
           if (store[id]) queueNotify(id, fig);
@@ -310,42 +451,47 @@ footer{padding:25px;text-align:center;font-size:12px}
     box.addEventListener('focusout', function (e) { if (!box.contains(e.relatedTarget)) settle(); });
     box.appendChild(label);
     fig.appendChild(box);
-    settle();
   });
-})();
-</script>
-<script>
-(function () {
+
+  // Photo gallery and Lightbox viewer
   var grid = document.querySelector('.photos');
   var figs = Array.prototype.slice.call(grid.querySelectorAll('figure'));
   var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
   var lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('figcaption'), lbCount = lb.querySelector('.lb-count');
   var closeBtn = lb.querySelector('.lb-close'), prevBtn = lb.querySelector('.lb-prev'), nextBtn = lb.querySelector('.lb-next');
-  var current = 0, lastFocus = null, startX = null;
+  var current = 0, lastFocus = null, startX = null, activeFilter = 'all';
 
   function inCat(f, cat) { return (f.getAttribute('data-cat') || '').split(' ').indexOf(cat) > -1; }
   function visible() { return figs.filter(function (f) { return !f.hidden; }); }
   function titleOf(f) { var c = f.querySelector('figcaption'); return c ? c.textContent.split('. ')[0].replace(/\.$/, '') : 'photo'; }
 
-  /* ---- category filters ---- */
   function applyFilter(cat) {
+    activeFilter = cat;
     figs.forEach(function (f) {
       f.hidden = !(cat === 'all' || inCat(f, cat));
       f.classList.remove('wide');
     });
     var v = visible();
-    if (v.length % 2 === 1) v[v.length - 1].classList.add('wide');   // no lonely half-width photo in the last row
+    if (v.length % 2 === 1) v[v.length - 1].classList.add('wide');
     chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-filter') === cat ? 'true' : 'false'); });
   }
+
   chips.forEach(function (c) {
     var cat = c.getAttribute('data-filter');
-    var n = cat === 'all' ? figs.length : figs.filter(function (f) { return inCat(f, cat); }).length;
-    c.textContent = c.textContent + ' (' + n + ')';
     c.addEventListener('click', function () { applyFilter(cat); });
   });
-  applyFilter('all');
 
-  /* ---- full-photo viewer ---- */
+  function updateFilterChips() {
+    var t = translations[currentLang];
+    chips.forEach(function (c) {
+      var cat = c.getAttribute('data-filter');
+      var n = cat === 'all' ? figs.length : figs.filter(function (f) { return inCat(f, cat); }).length;
+      var catName = t.cats[cat] || cat;
+      c.textContent = catName + ' (' + n + ')';
+    });
+    applyFilter(activeFilter);
+  }
+
   function show(i) {
     var v = visible(); if (!v.length) return;
     current = (i + v.length) % v.length;
@@ -355,9 +501,10 @@ footer{padding:25px;text-align:center;font-size:12px}
     lbCap.textContent = cap ? cap.textContent : '';
     lbCount.textContent = (current + 1) + ' / ' + v.length;
     [v[(current + 1) % v.length], v[(current - 1 + v.length) % v.length]].forEach(function (n) {
-      new Image().src = n.querySelector('img').getAttribute('src');   // preload neighbours
+      new Image().src = n.querySelector('img').getAttribute('src');
     });
   }
+
   function openViewer(fig) {
     lastFocus = document.activeElement;
     show(visible().indexOf(fig));
@@ -365,20 +512,22 @@ footer{padding:25px;text-align:center;font-size:12px}
     document.body.classList.add('lb-open');
     closeBtn.focus();
   }
+
   function closeViewer() {
     lb.hidden = true;
     document.body.classList.remove('lb-open');
     lbImg.removeAttribute('src');
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
+
   figs.forEach(function (f) {
     var img = f.querySelector('img');
     img.setAttribute('tabindex', '0');
     img.setAttribute('role', 'button');
-    img.setAttribute('aria-label', 'Open full photo: ' + titleOf(f));
     img.addEventListener('click', function () { openViewer(f); });
     img.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openViewer(f); } });
   });
+
   prevBtn.addEventListener('click', function () { show(current - 1); });
   nextBtn.addEventListener('click', function () { show(current + 1); });
   closeBtn.addEventListener('click', closeViewer);
@@ -388,7 +537,7 @@ footer{padding:25px;text-align:center;font-size:12px}
     if (e.key === 'Escape') closeViewer();
     else if (e.key === 'ArrowLeft') show(current - 1);
     else if (e.key === 'ArrowRight') show(current + 1);
-    else if (e.key === 'Tab') {                                   // keep keyboard focus inside the viewer
+    else if (e.key === 'Tab') {
       var items = [closeBtn, prevBtn, nextBtn], i = items.indexOf(document.activeElement);
       e.preventDefault();
       items[(i + (e.shiftKey ? -1 : 1) + items.length) % items.length].focus();
@@ -398,8 +547,101 @@ footer{padding:25px;text-align:center;font-size:12px}
   lb.addEventListener('touchend', function (e) {
     if (startX === null) return;
     var dx = e.changedTouches[0].clientX - startX; startX = null;
-    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));    // swipe left = next
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
   }, { passive: true });
+
+  // Main Language Switch Function
+  function applyLanguage(lang) {
+    currentLang = lang;
+    try { localStorage.setItem('abdenour-photo-lang', lang); } catch (e) {}
+
+    var t = translations[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.title = t.docTitle;
+
+    // Header
+    var brand = document.querySelector('header .brand');
+    if (brand) brand.innerHTML = t.brand;
+    var langToggle = document.getElementById('lang-toggle');
+    if (langToggle) {
+      langToggle.textContent = t.langBtn;
+      langToggle.setAttribute('aria-label', t.langBtnAria);
+    }
+
+    // Hero
+    var heroP = document.querySelectorAll('.hero div > p');
+    if (heroP[0]) heroP[0].textContent = t.heroSub;
+    var heroH1 = document.querySelector('.hero h1');
+    if (heroH1) heroH1.innerHTML = t.heroH1;
+    if (heroP[1]) heroP[1].textContent = t.heroDesc;
+    var heroCta = document.querySelector('.hero a');
+    if (heroCta) heroCta.textContent = t.heroCta;
+
+    // Intro
+    var intro = document.querySelector('.intro');
+    if (intro) intro.textContent = t.intro;
+
+    // Gallery
+    var galleryH2 = document.querySelector('.gallery h2');
+    if (galleryH2) galleryH2.textContent = t.galleryTitle;
+
+    var rateHint = document.querySelector('.rate-hint');
+    if (rateHint) rateHint.textContent = NOTIFY_KEY ? t.rateHintNotify : t.rateHint;
+
+    var filterContainer = document.querySelector('.filters');
+    if (filterContainer) filterContainer.setAttribute('aria-label', t.filterAria);
+
+    updateFilterChips();
+
+    // Photo captions and image aria-labels
+    figs.forEach(function (f) {
+      var img = f.querySelector('img');
+      var cap = f.querySelector('figcaption');
+      if (!img) return;
+      var src = img.getAttribute('src');
+      var captionText = (t.captions && t.captions[src]) ? t.captions[src] : (cap ? cap.textContent : '');
+      if (cap) cap.textContent = captionText;
+      var title = captionText.split('. ')[0].replace(/\.$/, '');
+      img.setAttribute('aria-label', t.imgOpenAria.replace('{title}', title));
+    });
+
+    // Update rating labels
+    settleFunctions.forEach(function (fn) { fn(); });
+
+    // Contact
+    var contactH2 = document.querySelector('.contact h2');
+    if (contactH2) contactH2.textContent = t.contactTitle;
+    var contactP = document.querySelector('.contact p:nth-of-type(1)');
+    if (contactP) contactP.textContent = t.contactSub;
+    var contactBtn = document.querySelector('.contact .btn');
+    if (contactBtn) contactBtn.textContent = t.instaBtn;
+
+    // Footer
+    var footer = document.querySelector('footer');
+    if (footer) footer.textContent = t.footer;
+
+    // Lightbox modal labels
+    if (lb) lb.setAttribute('aria-label', t.lbViewerAria);
+    if (closeBtn) closeBtn.setAttribute('aria-label', t.lbCloseAria);
+    if (prevBtn) prevBtn.setAttribute('aria-label', t.lbPrevAria);
+    if (nextBtn) nextBtn.setAttribute('aria-label', t.lbNextAria);
+
+    // If lightbox is currently open, refresh displayed caption
+    if (!lb.hidden) {
+      show(current);
+    }
+  }
+
+  var toggleBtn = document.getElementById('lang-toggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      applyLanguage(currentLang === 'en' ? 'ar' : 'en');
+    });
+  }
+
+  // Initialize language on load
+  applyLanguage(currentLang);
 })();
 </script>
 </body>
