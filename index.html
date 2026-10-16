@@ -38,6 +38,11 @@ h2{font:normal 42px Georgia}
 .photos figure:hover img{transform:translateY(-4px);box-shadow:0 24px 46px rgba(0,0,0,.6)}
 .photos figcaption{padding:14px 2px 0;font:italic 16px Georgia,serif;opacity:.88}
 .rate-hint{margin:0 0 48px;font-size:14px;opacity:.75;text-align:center}
+.view-hint{margin:0 0 10px;opacity:.95;font-size:15px}
+.view-hint strong{color:#e3b23c;font-weight:normal}
+.photos figure{position:relative}
+.photos figure::after{content:"\2922  Full size";position:absolute;top:12px;right:12px;padding:6px 12px;border-radius:999px;background:rgba(6,10,9,.62);color:#f2f0e9;font:12px Arial,sans-serif;letter-spacing:.3px;pointer-events:none;opacity:.9;transition:opacity .25s,background .25s}
+.photos figure:hover::after{background:rgba(227,178,60,.92);color:#131c18}
 .rate{display:flex;align-items:center;flex-wrap:wrap;padding:4px 0 14px}
 .star{background:none;border:0;margin:0;padding:0 1px;min-width:34px;min-height:38px;font:28px/1 Arial,sans-serif;color:#9aa090;cursor:pointer;transition:transform .12s,color .12s}
 .star.on{color:#e3b23c}
@@ -91,6 +96,7 @@ footer{padding:25px;text-align:center;font-size:12px}
 <section class="intro">A personal visual journal of places, light and fleeting moments.</section>
 <section class="gallery" id="work">
 <h2>Selected frames.</h2>
+<p class="rate-hint view-hint"><strong>Click (or tap) any photo to see it full size.</strong></p>
 <p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device, and the photographer gets a notification.</p>
 <div class="filters" role="group" aria-label="Filter photos by category">
 <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
