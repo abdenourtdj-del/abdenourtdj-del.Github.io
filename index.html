@@ -5,6 +5,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ABDENOUR PHOTOGRAPHY</title>
+<meta name="description" content="Abdenour Photography: landscape, architecture and city stories from Oran, Algeria. A personal visual journal of places, light and fleeting moments.">
+<meta name="theme-color" content="#0b1110">
+<link rel="canonical" href="https://abdenourtdj-del.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1110'/%3E%3Ccircle cx='32' cy='32' r='14' fill='none' stroke='%23e3b23c' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%23e3b23c'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Abdenour Photography">
+<meta property="og:title" content="Abdenour Photography: Moments That Breathe">
+<meta property="og:description" content="Landscape, architecture and city stories from Oran, Algeria. Places, light and fleeting moments.">
+<meta property="og:url" content="https://abdenourtdj-del.github.io/">
+<meta property="og:image" content="https://abdenourtdj-del.github.io/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The sun setting behind a dark headland over the sea">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f2f0e9;color:#30392f;font-family:Arial,sans-serif}
@@ -30,9 +44,38 @@ h2{font:normal 42px Georgia}
 .star:hover{transform:scale(1.18)}
 .star:focus-visible{outline:2px solid #f2f0e9;outline-offset:2px;border-radius:6px}
 .rate-label{margin-left:8px;font:13px Arial,sans-serif;opacity:.8}
+.filters{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 auto 44px;max-width:1240px}
+.chip{background:transparent;color:inherit;border:1px solid rgba(242,240,233,.38);border-radius:999px;padding:9px 20px;min-height:42px;font:14px Arial,sans-serif;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.chip:hover{border-color:#e3b23c}
+.chip[aria-pressed="true"]{background:#e3b23c;border-color:#e3b23c;color:#131c18}
+.chip:focus-visible{outline:2px solid #f2f0e9;outline-offset:2px}
+.photos figure[hidden]{display:none}
+.photos figure.wide{grid-column:1/-1}
+.photos figure.wide>img{height:440px}
+.photos img{cursor:zoom-in}
+.photos img:focus-visible{outline:3px solid #e3b23c;outline-offset:3px}
+.btn{display:inline-block;padding:14px 28px;background:#30392f;color:#f2f0e9;border-radius:999px;text-decoration:none;letter-spacing:.4px;transition:background .2s,transform .2s}
+.btn:hover{background:#18251d;transform:translateY(-2px)}
+.btn:focus-visible{outline:3px solid #b07a0a;outline-offset:3px}
+.lb{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(6,10,9,.95);padding:56px 16px 24px;color:#f2f0e9;animation:lbin .2s ease}
+.lb[hidden]{display:none}
+@keyframes lbin{from{opacity:0}to{opacity:1}}
+.lb-fig{margin:0;display:flex;flex-direction:column;align-items:center;max-width:100%}
+.lb-fig img{max-width:min(92vw,1100px);max-height:76vh;width:auto;height:auto;object-fit:contain;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.lb-fig figcaption{max-width:720px;margin-top:16px;text-align:center;font:italic 17px/1.5 Georgia,serif;opacity:.9}
+.lb button{font-family:Arial,sans-serif;color:#f2f0e9;background:rgba(242,240,233,.12);border:0;cursor:pointer;border-radius:50%;transition:background .2s}
+.lb button:hover{background:rgba(242,240,233,.28)}
+.lb button:focus-visible{outline:2px solid #e3b23c;outline-offset:2px}
+.lb-close{position:absolute;top:12px;right:14px;width:46px;height:46px;font-size:30px;line-height:1}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:36px;line-height:1}
+.lb-prev{left:14px}
+.lb-next{right:14px}
+.lb-count{position:absolute;top:22px;left:18px;font:14px Arial,sans-serif;opacity:.75}
+body.lb-open{overflow:hidden}
 .contact{text-align:center;padding:70px 20px}
 footer{padding:25px;text-align:center;font-size:12px}
-@media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}}
+@media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}.photos figure.wide>img{height:260px}.lb-nav{width:42px;height:42px;font-size:28px;top:auto;bottom:18px;transform:none}.lb-prev{left:16px}.lb-next{right:16px}.lb-fig img{max-height:66vh}}
+@media(prefers-reduced-motion:reduce){.lb{animation:none}.photos img,.btn,.chip{transition:none}}
 </style>
 </head>
 <body>
@@ -49,95 +92,109 @@ footer{padding:25px;text-align:center;font-size:12px}
 <section class="gallery" id="work">
 <h2>Selected frames.</h2>
 <p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device, and the photographer gets a notification.</p>
+<div class="filters" role="group" aria-label="Filter photos by category">
+<button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+<button type="button" class="chip" data-filter="golden" aria-pressed="false">Golden hour</button>
+<button type="button" class="chip" data-filter="night" aria-pressed="false">Night</button>
+<button type="button" class="chip" data-filter="city" aria-pressed="false">City</button>
+<button type="button" class="chip" data-filter="nature" aria-pressed="false">Nature</button>
+</div>
 <div class="photos">
-<figure>
-<img src="beach-sunset.jpg" alt="A small bright sun in an amber hazy sky over the sea, its golden reflection glittering on the waves and wet sand, with a rocky headland on the horizon" style="object-position:center 45%">
+<figure data-cat="golden">
+<img src="beach-sunset.jpg" width="1080" height="1440" loading="lazy" decoding="async" alt="A small bright sun in an amber hazy sky over the sea, its golden reflection glittering on the waves and wet sand, with a rocky headland on the horizon" style="object-position:center 45%">
 <figcaption>Amber hour. A hazy sun hangs over the shore and the wet sand turns to gold.</figcaption>
 </figure>
-<figure>
-<img src="port-view.jpg" alt="Aerial view of a deep blue bay with a long breakwater, a busy harbour and a dense city, seen from stone fort walls above a white-domed chapel" style="object-position:center 50%">
+<figure data-cat="city">
+<img src="port-view.jpg" width="1080" height="1440" loading="lazy" decoding="async" alt="Aerial view of a deep blue bay with a long breakwater, a busy harbour and a dense city, seen from stone fort walls above a white-domed chapel" style="object-position:center 50%">
 <figcaption>From above. Deep blue sea, the harbour and the city stretch out below the old fort walls.</figcaption>
 </figure>
-<figure>
-<img src="dome.jpg" alt="An ornate white building with a grey domed tower and carved balconies, framed by warm sandstone walls, palm trees and a clear blue sky" style="object-position:center 25%">
+<figure data-cat="city">
+<img src="dome.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="An ornate white building with a grey domed tower and carved balconies, framed by warm sandstone walls, palm trees and a clear blue sky" style="object-position:center 25%">
 <figcaption>Old stone, new light. A carved dome rises between sunlit walls under a clear blue sky.</figcaption>
 </figure>
-<figure>
-<img src="sunset.jpg" alt="The sun setting behind a dark headland, its light glittering on the sea in the foreground" style="object-position:center 38%">
+<figure data-cat="golden">
+<img src="sunset.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="The sun setting behind a dark headland, its light glittering on the sea in the foreground" style="object-position:center 38%">
 <figcaption>Last light. The sun slips behind the headland and the sea catches fire.</figcaption>
 </figure>
-<figure>
-<img src="blue-sky.jpg" alt="Bright white clouds drifting across a deep blue sky above rolling hills, red earth and a white farmhouse with a red roof" style="object-position:center 95%">
+<figure data-cat="nature">
+<img src="blue-sky.jpg" width="1200" height="1048" loading="lazy" decoding="async" alt="Bright white clouds drifting across a deep blue sky above rolling hills, red earth and a white farmhouse with a red roof" style="object-position:center 95%">
 <figcaption>Open country. Bright clouds roll over the hills, red earth and a lone white farmhouse.</figcaption>
 </figure>
-<figure>
-<img src="red-light-street.jpg" alt="An empty city avenue at dusk lit by glowing red traffic lights, with tall apartment buildings under a purple sky and red reflections on the road" style="object-position:center 25%">
+<figure data-cat="night city">
+<img src="red-light-street.jpg" width="1200" height="1376" loading="lazy" decoding="async" alt="An empty city avenue at dusk lit by glowing red traffic lights, with tall apartment buildings under a purple sky and red reflections on the road" style="object-position:center 25%">
 <figcaption>Red light. An empty avenue glows under a violet dusk sky.</figcaption>
 </figure>
-<figure>
-<img src="faculty.jpg" alt="Faculty of Medicine, Oran 1: campus buildings and green lawns under huge billowing clouds and a deep blue sky, with buses along the road" style="object-position:center 55%">
+<figure data-cat="city">
+<img src="faculty.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="Faculty of Medicine, Oran 1: campus buildings and green lawns under huge billowing clouds and a deep blue sky, with buses along the road" style="object-position:center 55%">
 <figcaption>Faculty of Medicine, Oran 1. Huge clouds build over the campus while the day carries on below.</figcaption>
 </figure>
-<figure>
-<img src="harbour-clouds.jpg" alt="Dramatic clouds over a harbour bay seen from a hillside terrace, with tall pine and palm silhouettes and an old fort on the hilltop" style="object-position:center 62%">
+<figure data-cat="city nature">
+<img src="harbour-clouds.jpg" width="1200" height="1088" loading="lazy" decoding="async" alt="Dramatic clouds over a harbour bay seen from a hillside terrace, with tall pine and palm silhouettes and an old fort on the hilltop" style="object-position:center 62%">
 <figcaption>Harbour light. Heavy clouds break open over the bay, the old fort and the port below.</figcaption>
 </figure>
-<figure>
-<img src="rainy-street.jpg" alt="A rainy night street with glowing orange lamps reflected on wet paving stones, a row of white apartment buildings and a dark blue sky" style="object-position:center 33%">
+<figure data-cat="night city">
+<img src="rainy-street.jpg" width="1200" height="1152" loading="lazy" decoding="async" alt="A rainy night street with glowing orange lamps reflected on wet paving stones, a row of white apartment buildings and a dark blue sky" style="object-position:center 33%">
 <figcaption>After the rain. Street lamps melt into the wet stones and the city glows amber.</figcaption>
 </figure>
-<figure>
-<img src="sun-leaves.jpg" alt="Large green leaves lit from behind by low golden sun, with a sparkling fountain and trees in the background" style="object-position:center 60%">
+<figure data-cat="golden nature">
+<img src="sun-leaves.jpg" width="1200" height="1120" loading="lazy" decoding="async" alt="Large green leaves lit from behind by low golden sun, with a sparkling fountain and trees in the background" style="object-position:center 60%">
 <figcaption>Backlit. Low sun sets the leaves aglow while a fountain sparkles behind.</figcaption>
 </figure>
-<figure>
-<img src="tram-street.jpg" alt="A quiet city street at night lit by orange lamps and shop windows, with tram tracks running past old apartment buildings" style="object-position:center 25%">
+<figure data-cat="night city">
+<img src="tram-street.jpg" width="1200" height="1080" loading="lazy" decoding="async" alt="A quiet city street at night lit by orange lamps and shop windows, with tram tracks running past old apartment buildings" style="object-position:center 25%">
 <figcaption>City after dark. Warm lamps and shop lights line a quiet tram street.</figcaption>
 </figure>
-<figure>
-<img src="sea-sunset.jpg" alt="The sun low over a calm sea in a wide golden sky, with silhouettes on the shore in the foreground and a small boat on the water" style="object-position:center 88%">
+<figure data-cat="golden">
+<img src="sea-sunset.jpg" width="1600" height="1600" loading="lazy" decoding="async" alt="The sun low over a calm sea in a wide golden sky, with silhouettes on the shore in the foreground and a small boat on the water" style="object-position:center 88%">
 <figcaption>Golden hour. The sun sinks into a calm sea while silhouettes on the shore watch it go.</figcaption>
 </figure>
-<figure>
-<img src="park-pond.jpg" alt="A still pond in a park, framed by tall palm trees and green lawns under a blue sky with soft clouds" style="object-position:center 30%">
+<figure data-cat="nature">
+<img src="park-pond.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="A still pond in a park, framed by tall palm trees and green lawns under a blue sky with soft clouds" style="object-position:center 30%">
 <figcaption>Still water. Palms lean over a quiet pond while the breeze draws ripples across the surface.</figcaption>
 </figure>
-<figure>
-<img src="dusk-shore.jpg" alt="A thin orange glow along the sea horizon under a soft dusk sky, with waves rolling toward a wet sand beach and swimmers in the distance" style="object-position:center 60%">
+<figure data-cat="golden">
+<img src="dusk-shore.jpg" width="1200" height="1280" loading="lazy" decoding="async" alt="A thin orange glow along the sea horizon under a soft dusk sky, with waves rolling toward a wet sand beach and swimmers in the distance" style="object-position:center 60%">
 <figcaption>Last glow. A thin line of fire on the horizon as the waves roll in at dusk.</figcaption>
 </figure>
-<figure>
-<img src="pine-valley.jpg" alt="Pine branches framing a green forested valley with hills in the distance under a pale sky" style="object-position:center 50%">
+<figure data-cat="nature">
+<img src="pine-valley.jpg" width="1080" height="1440" loading="lazy" decoding="async" alt="Pine branches framing a green forested valley with hills in the distance under a pale sky" style="object-position:center 50%">
 <figcaption>Green silence. Pine forest rolls down into the valley toward the distant hills.</figcaption>
 </figure>
-<figure>
-<img src="night-square.jpg" alt="A grand white building lit up at night with two large Algerian flags on its facade, palm trees in front and an empty wet street" style="object-position:center 35%">
+<figure data-cat="night city">
+<img src="night-square.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="A grand white building lit up at night with two large Algerian flags on its facade, palm trees in front and an empty wet street" style="object-position:center 35%">
 <figcaption>After hours. The city goes quiet, but the facade glows in white light and the colors of the flag.</figcaption>
 </figure>
-<figure>
-<img src="night-stars.jpg" alt="A small patch of dark night sky dotted with stars, framed by silhouetted tree branches" style="object-position:center 46%">
+<figure data-cat="night nature">
+<img src="night-stars.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="A small patch of dark night sky dotted with stars, framed by silhouetted tree branches" style="object-position:center 46%">
 <figcaption>Under the pines. A small window of night sky opens between the treetops, scattered with stars.</figcaption>
 </figure>
-<figure>
-<img src="rainy-road.jpg" alt="A wet empty road lined with trees on both sides, fading into a hazy sepia sky, with a lone vehicle in the distance" style="object-position:center 62%">
+<figure data-cat="nature">
+<img src="rainy-road.jpg" width="665" height="1000" loading="lazy" decoding="async" alt="A wet empty road lined with trees on both sides, fading into a hazy sepia sky, with a lone vehicle in the distance" style="object-position:center 62%">
 <figcaption>Storm light. An avenue of trees fades into the rain on the open road.</figcaption>
 </figure>
-<figure>
-<img src="snow-mountains.jpg" alt="A rocky mountain ridge dusted with snow above a dark forest, seen through the bare branches of a tree under a grey cloudy sky" style="object-position:center 45%">
+<figure data-cat="nature">
+<img src="snow-mountains.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="A rocky mountain ridge dusted with snow above a dark forest, seen through the bare branches of a tree under a grey cloudy sky" style="object-position:center 45%">
 <figcaption>Winter ridge. Snow clings to the rock above the dark forest, framed by bare branches.</figcaption>
 </figure>
-<figure>
-<img src="night-clock.jpg" alt="A round illuminated clock glowing white against a completely dark night, with street lights fading into the distance" style="object-position:center 50%">
+<figure data-cat="night city">
+<img src="night-clock.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="A round illuminated clock glowing white against a completely dark night, with street lights fading into the distance" style="object-position:center 50%">
 <figcaption>Time, lit. A single glowing clock holds the dark while the lights trail off into the distance.</figcaption>
 </figure>
-<figure>
-<img src="bare-tree.jpg" alt="The bare branches of a leafless tree against a heavy grey cloudy sky" style="object-position:center 45%">
+<figure data-cat="nature">
+<img src="bare-tree.jpg" width="1080" height="1440" loading="lazy" decoding="async" alt="The bare branches of a leafless tree against a heavy grey cloudy sky" style="object-position:center 45%">
 <figcaption>Bare. A leafless tree reaches into a heavy grey sky.</figcaption>
 </figure>
 </div>
 </section>
-<section class="contact"><h2>Let's connect.</h2><p>Photography by Abdenour · Oran, Algeria</p><p>Instagram: <a href="https://instagram.com/abd_enour4" target="_blank" rel="noopener">@abd_enour4</a></p></section>
+<section class="contact"><h2>Let's connect.</h2><p>Photography by Abdenour · Oran, Algeria</p><p><a class="btn" href="https://instagram.com/abd_enour4" target="_blank" rel="noopener noreferrer">Follow @abd_enour4 on Instagram</a></p></section>
 <footer>© 2026 ABDENOUR PHOTOGRAPHY — Moments That Breathe</footer>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+<button type="button" class="lb-close" aria-label="Close viewer">&times;</button>
+<div class="lb-count" aria-live="polite"></div>
+<button type="button" class="lb-nav lb-prev" aria-label="Previous photo">&#8249;</button>
+<figure class="lb-fig"><img alt=""><figcaption></figcaption></figure>
+<button type="button" class="lb-nav lb-next" aria-label="Next photo">&#8250;</button>
+</div>
 <script>
 (function () {
   // ---- Email alerts: paste your free Web3Forms access key between the quotes (see web3forms.com).
@@ -150,11 +207,11 @@ footer{padding:25px;text-align:center;font-size:12px}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
 
   // Push notification to the photographer's phone (ntfy app) when a visitor rates a photo.
-  var NTFY_TOPIC = 'abdenour-photos-nx87hy2ohxf1bp', sent = 0, timers = {};
+  var NTFY_TOPIC = 'abdenour-photos-nx87hy2ohxf1bp', sent = 0, ntfyTimers = {};   // own timer table, so the email alert can never cancel the push alert
   function notify(id, name, rating) {
     if (!NTFY_TOPIC || sent >= 20) return;               // cap per page visit
-    clearTimeout(timers[id]);
-    timers[id] = setTimeout(function () {                // wait for the visitor to settle on a final rating
+    clearTimeout(ntfyTimers[id]);
+    ntfyTimers[id] = setTimeout(function () {            // wait for the visitor to settle on a final rating
       sent++;
       var stars = new Array(rating + 1).join('★') + new Array(6 - rating).join('☆');
       try {
@@ -241,7 +298,7 @@ footer{padding:25px;text-align:center;font-size:12px}
         b.addEventListener('mouseenter', function () { paint(n); });
         b.addEventListener('focus', function () { paint(n); });
         b.addEventListener('click', function () {
-          if (store[id] === n) { delete store[id]; clearTimeout(timers[id]); }   // tap same star again to clear
+          if (store[id] === n) { delete store[id]; clearTimeout(ntfyTimers[id]); clearTimeout(timers[id]); }   // tap same star again to clear
           else { store[id] = n; notify(id, title, n); }
           save(); settle();
           if (store[id]) queueNotify(id, fig);
@@ -255,6 +312,94 @@ footer{padding:25px;text-align:center;font-size:12px}
     fig.appendChild(box);
     settle();
   });
+})();
+</script>
+<script>
+(function () {
+  var grid = document.querySelector('.photos');
+  var figs = Array.prototype.slice.call(grid.querySelectorAll('figure'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('figcaption'), lbCount = lb.querySelector('.lb-count');
+  var closeBtn = lb.querySelector('.lb-close'), prevBtn = lb.querySelector('.lb-prev'), nextBtn = lb.querySelector('.lb-next');
+  var current = 0, lastFocus = null, startX = null;
+
+  function inCat(f, cat) { return (f.getAttribute('data-cat') || '').split(' ').indexOf(cat) > -1; }
+  function visible() { return figs.filter(function (f) { return !f.hidden; }); }
+  function titleOf(f) { var c = f.querySelector('figcaption'); return c ? c.textContent.split('. ')[0].replace(/\.$/, '') : 'photo'; }
+
+  /* ---- category filters ---- */
+  function applyFilter(cat) {
+    figs.forEach(function (f) {
+      f.hidden = !(cat === 'all' || inCat(f, cat));
+      f.classList.remove('wide');
+    });
+    var v = visible();
+    if (v.length % 2 === 1) v[v.length - 1].classList.add('wide');   // no lonely half-width photo in the last row
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-filter') === cat ? 'true' : 'false'); });
+  }
+  chips.forEach(function (c) {
+    var cat = c.getAttribute('data-filter');
+    var n = cat === 'all' ? figs.length : figs.filter(function (f) { return inCat(f, cat); }).length;
+    c.textContent = c.textContent + ' (' + n + ')';
+    c.addEventListener('click', function () { applyFilter(cat); });
+  });
+  applyFilter('all');
+
+  /* ---- full-photo viewer ---- */
+  function show(i) {
+    var v = visible(); if (!v.length) return;
+    current = (i + v.length) % v.length;
+    var f = v[current], img = f.querySelector('img'), cap = f.querySelector('figcaption');
+    lbImg.src = img.getAttribute('src');
+    lbImg.alt = img.alt;
+    lbCap.textContent = cap ? cap.textContent : '';
+    lbCount.textContent = (current + 1) + ' / ' + v.length;
+    [v[(current + 1) % v.length], v[(current - 1 + v.length) % v.length]].forEach(function (n) {
+      new Image().src = n.querySelector('img').getAttribute('src');   // preload neighbours
+    });
+  }
+  function openViewer(fig) {
+    lastFocus = document.activeElement;
+    show(visible().indexOf(fig));
+    lb.hidden = false;
+    document.body.classList.add('lb-open');
+    closeBtn.focus();
+  }
+  function closeViewer() {
+    lb.hidden = true;
+    document.body.classList.remove('lb-open');
+    lbImg.removeAttribute('src');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  figs.forEach(function (f) {
+    var img = f.querySelector('img');
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'Open full photo: ' + titleOf(f));
+    img.addEventListener('click', function () { openViewer(f); });
+    img.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openViewer(f); } });
+  });
+  prevBtn.addEventListener('click', function () { show(current - 1); });
+  nextBtn.addEventListener('click', function () { show(current + 1); });
+  closeBtn.addEventListener('click', closeViewer);
+  lb.addEventListener('click', function (e) { if (e.target === lb) closeViewer(); });
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') closeViewer();
+    else if (e.key === 'ArrowLeft') show(current - 1);
+    else if (e.key === 'ArrowRight') show(current + 1);
+    else if (e.key === 'Tab') {                                   // keep keyboard focus inside the viewer
+      var items = [closeBtn, prevBtn, nextBtn], i = items.indexOf(document.activeElement);
+      e.preventDefault();
+      items[(i + (e.shiftKey ? -1 : 1) + items.length) % items.length].focus();
+    }
+  });
+  lb.addEventListener('touchstart', function (e) { startX = e.changedTouches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX; startX = null;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));    // swipe left = next
+  }, { passive: true });
 })();
 </script>
 </body>
