@@ -62,6 +62,23 @@ h2{font:normal 42px Georgia}
 .btn{display:inline-block;padding:14px 28px;background:#30392f;color:#f2f0e9;border-radius:999px;text-decoration:none;letter-spacing:.4px;transition:background .2s,transform .2s}
 .btn:hover{background:#18251d;transform:translateY(-2px)}
 .btn:focus-visible{outline:3px solid #b07a0a;outline-offset:3px}
+.cm-toggle{margin:0 0 14px;background:transparent;color:inherit;border:1px solid rgba(242,240,233,.38);border-radius:999px;padding:7px 16px;min-height:38px;font:13px Arial,sans-serif;cursor:pointer;transition:border-color .2s}
+.cm-toggle:hover{border-color:#e3b23c}
+.cm-toggle:focus-visible,.cm-send:focus-visible{outline:2px solid #f2f0e9;outline-offset:2px}
+.cm-form{margin:0 0 14px;display:grid;gap:8px}
+.cm-form[hidden]{display:none}
+.cm-form input,.cm-form textarea{width:100%;background:rgba(242,240,233,.08);color:#f2f0e9;border:1px solid rgba(242,240,233,.3);border-radius:8px;padding:10px 12px;font:15px Arial,sans-serif}
+.cm-form textarea{min-height:84px;resize:vertical}
+.cm-form input:focus,.cm-form textarea:focus{outline:2px solid #e3b23c;outline-offset:1px}
+.cm-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.cm-send{background:#e3b23c;color:#131c18;border:0;border-radius:999px;padding:9px 22px;min-height:40px;font:600 14px Arial,sans-serif;cursor:pointer}
+.cm-send[disabled]{opacity:.6;cursor:default}
+.cm-count,.cm-note{font:12px Arial,sans-serif;opacity:.7;margin:0}
+.cm-msg{font:13px Arial,sans-serif;margin:0;min-height:1em}
+.cm-msg.err{color:#f0a08a}
+.cm-mine{margin:0 0 12px;padding:0;list-style:none;font:14px/1.5 Georgia,serif}
+.cm-mine li{padding:8px 12px;border-left:3px solid #e3b23c;background:rgba(242,240,233,.06);border-radius:0 8px 8px 0;margin-top:6px;word-wrap:break-word;overflow-wrap:anywhere}
+.cm-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .lb{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(6,10,9,.95);padding:56px 16px 24px;color:#f2f0e9;animation:lbin .2s ease}
 .lb[hidden]{display:none}
 @keyframes lbin{from{opacity:0}to{opacity:1}}
@@ -96,7 +113,7 @@ footer{padding:25px;text-align:center;font-size:12px}
 <section class="intro">A personal visual journal of places, light and fleeting moments.</section>
 <section class="gallery" id="work">
 <h2>Selected frames.</h2>
-<p class="rate-hint view-hint"><strong>Click (or tap) any photo to see it full size.</strong></p>
+<p class="rate-hint view-hint"><strong>Click (or tap) any photo to see it full size. Rate it with stars or leave a comment.</strong></p>
 <p class="rate-hint">Tap the stars under any photo to rate it. Your ratings are saved on this device, and the photographer gets a notification.</p>
 <div class="filters" role="group" aria-label="Filter photos by category">
 <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
@@ -406,6 +423,107 @@ footer{padding:25px;text-align:center;font-size:12px}
     var dx = e.changedTouches[0].clientX - startX; startX = null;
     if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));    // swipe left = next
   }, { passive: true });
+})();
+</script>
+<script>
+(function () {
+  // Visitor comments: sent privately to the photographer as a phone notification (ntfy).
+  // They are not shown publicly; the visitor only sees their own comments on their own device.
+  var TOPIC = 'abdenour-photos-nx87hy2ohxf1bp', KEY = 'abdenour-photo-comments-v1';
+  var MAX_LEN = 300, MAX_PER_VISIT = 6, WAIT_MS = 15000, sentThisVisit = 0, lastSent = 0;
+  var mine = {};
+  try { mine = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { mine = {}; }
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(mine)); } catch (e) {} }
+
+  function notifyOwner(title, name, text) {
+    var body = (name || 'Anonymous') + ': ' + text + '\n\nPhoto: ' + title;
+    return fetch('https://ntfy.sh/' + TOPIC + '?title=' + encodeURIComponent('New comment on "' + title + '"') + '&tags=speech_balloon&priority=4', {
+      method: 'POST', mode: 'no-cors', body: body
+    });
+  }
+
+  document.querySelectorAll('.photos figure').forEach(function (fig, idx) {
+    var img = fig.querySelector('img'), cap = fig.querySelector('figcaption');
+    if (!img) return;
+    var id = img.getAttribute('src');
+    var title = cap ? cap.textContent.split('. ')[0].replace(/\.$/, '') : id;
+    var fid = 'cm-' + idx;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'cm';
+
+    var list = document.createElement('ul');
+    list.className = 'cm-mine';
+    list.setAttribute('aria-label', 'Your comments on this photo');
+
+    var toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'cm-toggle';
+    toggle.textContent = '💬 Leave a comment';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', fid);
+
+    var form = document.createElement('form');
+    form.className = 'cm-form';
+    form.id = fid;
+    form.hidden = true;
+    form.setAttribute('novalidate', '');
+    form.innerHTML =
+      '<input type="text" class="cm-name" maxlength="40" placeholder="Your name (optional)" aria-label="Your name (optional)" autocomplete="given-name">' +
+      '<textarea class="cm-text" maxlength="' + MAX_LEN + '" placeholder="Write your comment here" aria-label="Your comment"></textarea>' +
+      '<input type="text" class="cm-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<div class="cm-row"><span class="cm-count">0 / ' + MAX_LEN + '</span><button type="submit" class="cm-send">Send comment</button></div>' +
+      '<p class="cm-msg" role="status" aria-live="polite"></p>' +
+      '<p class="cm-note">Sent privately to the photographer. Please don’t share personal details.</p>';
+
+    var nameEl = form.querySelector('.cm-name'), textEl = form.querySelector('.cm-text'), hp = form.querySelector('.cm-hp');
+    var countEl = form.querySelector('.cm-count'), sendBtn = form.querySelector('.cm-send'), msg = form.querySelector('.cm-msg');
+
+    function say(t, isErr) { msg.textContent = t; msg.className = 'cm-msg' + (isErr ? ' err' : ''); }
+    function renderMine() {
+      list.textContent = '';
+      (mine[id] || []).slice(-3).forEach(function (c) {
+        var li = document.createElement('li');
+        li.textContent = (c.n ? c.n : 'You') + ': ' + c.t;          // textContent: visitor text can never run as HTML
+        list.appendChild(li);
+      });
+    }
+
+    toggle.addEventListener('click', function () {
+      var open = form.hidden;
+      form.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) textEl.focus();
+    });
+    textEl.addEventListener('input', function () { countEl.textContent = textEl.value.length + ' / ' + MAX_LEN; });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var text = textEl.value.replace(/\s+/g, ' ').trim().slice(0, MAX_LEN);
+      var name = nameEl.value.replace(/\s+/g, ' ').trim().slice(0, 40);
+      if (hp.value) { say('Sent! Thank you.', false); return; }                      // bots fill the hidden field: pretend success, send nothing
+      if (text.length < 2) { say('Please write a comment first.', true); textEl.focus(); return; }
+      if (sentThisVisit >= MAX_PER_VISIT) { say('That’s the limit for now. Thank you for all your comments!', true); return; }
+      var wait = WAIT_MS - (Date.now() - lastSent);
+      if (wait > 0) { say('Please wait ' + Math.ceil(wait / 1000) + ' seconds before sending another comment.', true); return; }
+
+      sendBtn.disabled = true; say('Sending…', false);
+      notifyOwner(title, name, text).then(function () {
+        sentThisVisit++; lastSent = Date.now();
+        (mine[id] = mine[id] || []).push({ n: name, t: text });
+        persist(); renderMine();
+        textEl.value = ''; countEl.textContent = '0 / ' + MAX_LEN;
+        say('Sent! The photographer has been notified. Thank you.', false);
+      }).catch(function () {
+        say('Couldn’t send. Please check your connection and try again.', true);
+      }).then(function () { sendBtn.disabled = false; });
+    });
+
+    wrap.appendChild(list); wrap.appendChild(toggle); wrap.appendChild(form);
+    var rate = fig.querySelector('.rate');
+    if (rate && rate.nextSibling) fig.insertBefore(wrap, rate.nextSibling); else fig.appendChild(wrap);
+    renderMine();
+  });
 })();
 </script>
 </body>
