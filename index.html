@@ -23,7 +23,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:#f2f0e9;color:#30392f;font-family:Arial,sans-serif}
 header{padding:25px 7%;letter-spacing:3px;font-size:13px}
-.hero{min-height:75vh;background:linear-gradient(90deg,rgba(8,14,18,.5),rgba(8,14,18,.05) 70%),url('hero-sky.jpg') 40% center/cover;display:flex;align-items:center;color:white;padding:8%}
+.hero{position:relative;overflow:hidden;min-height:75vh;background:#0b1110;display:flex;align-items:center;color:white;padding:8%}.hero-slides{position:absolute;inset:0}.hero-slide{position:absolute;inset:0;background-size:cover;background-position:var(--d);opacity:0;transition:opacity 1.4s ease}.hero-slide.on{opacity:1}.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,14,18,.55),rgba(8,14,18,.08) 70%)}.hero-text{position:relative;z-index:2}
 h1{font-family:Georgia,serif;font-weight:normal;font-size:clamp(45px,8vw,90px);line-height:1.1}
 h1 em{color:#d4ddc7}
 p{line-height:1.8}
@@ -97,15 +97,14 @@ body.lb-open{overflow:hidden}
 .contact{text-align:center;padding:70px 20px}
 footer{padding:25px;text-align:center;font-size:12px}
 @media(max-width:600px){.photos{grid-template-columns:1fr}.photos img{height:260px}.photos figure.wide>img{height:260px}.lb-nav{width:42px;height:42px;font-size:28px;top:auto;bottom:18px;transform:none}.lb-prev{left:16px}.lb-next{right:16px}.lb-fig img{max-height:66vh}}
-.hero>div{text-shadow:0 2px 16px rgba(0,0,0,.45)}
-@media(max-width:600px){.hero{background:linear-gradient(180deg,rgba(8,14,18,.5),rgba(8,14,18,.22) 55%,rgba(8,14,18,.1)),url('hero-sky.jpg') 58% center/cover}.hero>div{text-shadow:0 2px 14px rgba(0,0,0,.7)}}
+.hero-text{text-shadow:0 2px 16px rgba(0,0,0,.45)}
+@media(max-width:600px){.hero-slide{background-position:var(--m)}.hero::after{background:linear-gradient(180deg,rgba(8,14,18,.55),rgba(8,14,18,.25) 55%,rgba(8,14,18,.12))}.hero-text{text-shadow:0 2px 14px rgba(0,0,0,.7)}}
 @media(prefers-reduced-motion:reduce){.lb{animation:none}.photos img,.btn,.chip{transition:none}}
 </style>
 </head>
 <body>
 <header>ABDENOUR<br>PHOTOGRAPHY</header>
-<section class="hero">
-<div>
+<section class="hero"><div class="hero-slides" aria-hidden="true"><div class="hero-slide on" style="--d:40% center;--m:58% center;background-image:url('hero-sky.jpg')"></div></div><div class="hero-text">
 <p>LANDSCAPE · ARCHITECTURE · STORIES</p>
 <h1>Moments<br><em>That Breathe.</em></h1>
 <p>Finding beauty in places, light and everyday moments.</p>
@@ -531,6 +530,15 @@ footer{padding:25px;text-align:center;font-size:12px}
     renderMine();
   });
 })();
+</script>
+<script>
+(function(){var hs=document.querySelector('.hero-slides');if(!hs)return;
+var list=[['hero-harbour.jpg','50% center','12% center'],['hero-sea.jpg','50% center','45% center'],['hero-storm.jpg','50% center','50% center']];
+var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var sd=navigator.connection&&navigator.connection.saveData;if(rm||sd)return;
+function go(){var n=0,done=[];list.forEach(function(it){var im=new Image();im.onload=function(){var d=document.createElement('div');d.className='hero-slide';d.style.cssText='--d:'+it[1]+';--m:'+it[2]+';background-image:url('+it[0]+')';hs.appendChild(d);if(++n===list.length)start()};im.src=it[0]})}
+function start(){var sl=hs.children,i=0;setInterval(function(){if(document.hidden)return;sl[i].classList.remove('on');i=(i+1)%sl.length;sl[i].classList.add('on')},6500)}
+if(document.readyState==='complete')go();else addEventListener('load',go);})();
 </script>
 </body>
 </html>
