@@ -135,6 +135,10 @@ footer{padding:25px;text-align:center;font-size:12px}
 <img src="dome.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="An ornate white building with a grey domed tower and carved balconies, framed by warm sandstone walls, palm trees and a clear blue sky" style="object-position:center 25%">
 <figcaption>Old stone, new light. A carved dome rises between sunlit walls under a clear blue sky.</figcaption>
 </figure>
+<figure data-cat="golden nature">
+<img src="cloud-sunset.jpg" width="640" height="1136" loading="lazy" decoding="async" alt="A low orange sun glowing under a sky of scattered, sunlit clouds over a dark sea, with rocks in the foreground" style="object-position:center 35%">
+<figcaption>Sky on fire. Scattered clouds catch the last light as the sun drops toward the sea.</figcaption>
+</figure>
 <figure data-cat="golden">
 <img src="sunset.jpg" width="1600" height="2133" loading="lazy" decoding="async" alt="The sun setting behind a dark headland, its light glittering on the sea in the foreground" style="object-position:center 38%">
 <figcaption>Last light. The sun slips behind the headland and the sea catches fire.</figcaption>
@@ -240,7 +244,7 @@ footer{padding:25px;text-align:center;font-size:12px}
       try {
         fetch('https://ntfy.sh/' + NTFY_TOPIC + '?title=' + encodeURIComponent('New photo rating') + '&tags=star', {
           method: 'POST', mode: 'no-cors', body: stars + '  ' + rating + '/5 — ' + name
-        });
+        }).catch(function () {});   // offline or blocked: the visitor's rating still works
       } catch (e) {}
     }, 1500);
   }
